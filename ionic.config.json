@@ -1,0 +1,7 @@
+{
+  "name": "organisoApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
