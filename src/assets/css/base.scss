@@ -1,0 +1,25 @@
+@reference "tailwindcss"
+
+body ion-app {
+  font-family: var(--font-global) !important;
+  background-color: red !important;
+  color: var(--color-white);
+  font-size: 14px;
+
+  ion-title,
+  ion-label,
+  input,
+  select,
+  text-area,
+  // span,
+  div,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-global) !important;
+    // color: var(--color-white);
+  }
+}

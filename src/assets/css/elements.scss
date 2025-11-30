@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+.btn-primary {
+  @apply bg-[#6155F5] text-lg text-white font-normal py-2 px-6 w-full rounded-xl;
+}

@@ -1,0 +1,165 @@
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+
+    label {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--color-black);
+    }
+
+    input,
+    select,
+    ion-select,
+    textarea {
+      background-color: var(--color-white) !important;
+      color: var(--color-gray);
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 10px;
+      padding: 12px !important;
+      outline: none;
+      border: 1px solid gray;
+      transition: all 0.2s ease-in-out;
+      width: 100%;
+      &:focus-within {
+        border: 1px solid var(--color-green);
+      }
+    }
+
+    /* ✅ Special handling for phone input (flag + input inside one wrapper) */
+    .virtual-input {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--color-dark-green) !important;
+      border-radius: 10px;
+      padding: 0 12px; // shared padding like normal input
+      min-height: 47px;
+
+      select {
+        border: none;
+        background: transparent !important;
+        color: var(--color-gray);
+        font-size: 14px;
+        font-weight: 500;
+        outline: none;
+      }
+
+      input {
+        flex: 1;
+        padding: 0 !important;
+        border: none !important;
+        background-color: transparent !important;
+        color: var(--color-gray);
+        font-size: 14px;
+        font-weight: 500;
+        outline: none;
+      }
+    }
+  }
+}
+ion-select {
+  border-radius: 4px;
+  padding: 8px !important;
+  background-color: var(--c-bg) !important;
+}
+.errors {
+  span {
+    font-size: 10px;
+    color: var(--color-red);
+  }
+}
+.article {
+  h1 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  h2 {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+    margin-top: 12px;
+  }
+  p {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    margin-top: 12px;
+  }
+  ul {
+    margin-top: 12px;
+    li {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 20px;
+    }
+  }
+}
+
+////////////////////////////// Modals //////////////////////////////
+ion-modal {
+  &.fit-modal {
+    --width: fit-content;
+    --min-width: 250px;
+    --height: fit-content;
+    --border-radius: 10px;
+    --box-shadow: none !important;
+    --border-style: none;
+    --background: var(--c-primary-dark);
+  }
+}
+.max-h-modal {
+  width: calc(100vw - 48px);
+  max-height: calc(70vh); // 100% - 48 header and tabs
+}
+.max-h-modal-body {
+  max-height: calc(70vh - 46px); // 100% - 48 header and tabs - 46 modal hight
+  display: block;
+}
+.max-h-modal-content {
+  max-height: calc(
+    70vh - 56px
+  ); // 100% - 48 header and tabs - 46 modal hight + 10 padding top
+  display: block;
+}
+
+////////////////////////////// Scroll bar for web //////////////////////////////
+/// /* global.scss */
+::-webkit-scrollbar {
+  width: 6px; /* thin like iOS */
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* iOS look */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2); /* semi-transparent */
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+.range-tick {
+  background-color: transparent !important;
+  background: none !important;
+}

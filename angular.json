@@ -23,9 +23,7 @@
               "browser": ""
             },
             "index": "src/index.html",
-            "polyfills": [
-              "src/polyfills.ts"
-            ],
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -35,7 +33,19 @@
                 "output": "assets"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": [
+              "src/assets/css/tailwind.css",
+              "src/global.scss",
+              "src/theme/variables.scss",
+              "src/assets/css/theme.scss",
+              "src/assets/css/base.scss",
+              "src/assets/css/custom.scss",
+              "src/assets/css/elements.scss",
+              "src/assets/css/fonts.scss",
+              "src/assets/css/ion.scss",
+              "src/assets/css/spacing.scss",
+              "src/assets/css/typography.scss"
+            ],
             "scripts": [],
             "browser": "src/main.ts"
           },
