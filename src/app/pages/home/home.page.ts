@@ -11,6 +11,7 @@ import {
   IonIcon,
 } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
+import { TotalTasksComponentComponent } from './components/total-tasks-component/total-tasks-component.component';
 
 @Component({
   selector: 'app-home',
@@ -18,15 +19,15 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./home.page.scss'],
   standalone: true,
   imports: [
-    IonIcon,
     IonButton,
     IonButtons,
     IonContent,
-    RouterLink,
+
     CommonModule,
     FormsModule,
     IonHeader,
     IonToolbar,
+    TotalTasksComponentComponent,
   ],
 })
 export class HomePage implements OnInit {

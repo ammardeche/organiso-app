@@ -149,6 +149,7 @@
 }
 
 @theme {
+  --color-primary: #5f33e1;
   --color-bg: #01010b;
   --color-white: #ffffff;
   --color-green: #0bb262;
@@ -158,6 +159,7 @@
   --color-yellow: #ffb122;
 }
 :root {
+  --color-primary: #5f33e1;
   --color-bg: #ffffff;
   --color-white: #ffffff;
   --color-green: #0bb262;

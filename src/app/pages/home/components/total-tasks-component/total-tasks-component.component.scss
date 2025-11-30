@@ -1,0 +1,23 @@
+.circular-chart {
+  width: 80px;
+  height: 80px;
+  fill: none;
+  stroke-width: 3;
+}
+
+.circle-bg {
+  stroke: white;
+}
+
+.circle {
+  stroke: #5f33e1;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.5s ease;
+}
+
+.percentage {
+  fill: white;
+  font-weight: bold;
+  text-anchor: middle;
+  font-size: 10px;
+}

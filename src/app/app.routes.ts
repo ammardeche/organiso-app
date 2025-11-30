@@ -1,10 +1,23 @@
 import { Routes } from '@angular/router';
+import { TabsComponent } from './components/layouts/tabs/tabs.component';
 
 export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
       import('./pages/auth/login/login.page').then((m) => m.LoginPage),
+  },
+
+  {
+    path: '',
+    component: TabsComponent,
+    children: [
+      {
+        path: 'home',
+        loadComponent: () =>
+          import('./pages/home/home.page').then((m) => m.HomePage),
+      },
+    ],
   },
 
   // redirect page
@@ -31,11 +44,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/splash/splash.page').then((m) => m.SplashPage),
   },
-  {
-    path: 'home',
-    loadComponent: () =>
-      import('./pages/home/home.page').then((m) => m.HomePage),
-  },
+
   {
     path: 'forget-password-form',
     loadComponent: () =>
