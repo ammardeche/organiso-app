@@ -19,6 +19,7 @@ import { Swiper, SwiperModule } from 'swiper/types';
 import { IonicSlides } from '@ionic/angular';
 
 import { SwiperOptions } from 'swiper/types';
+import { TaskGroupComponentsComponent } from './components/task-group-components/task-group-components.component';
 
 @Component({
   selector: 'app-home',
@@ -35,11 +36,13 @@ import { SwiperOptions } from 'swiper/types';
     IonToolbar,
     TotalTasksComponentComponent,
     InProgressComponentComponent,
+    TaskGroupComponentsComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class HomePage implements OnInit {
   progress = 20;
+  items = Array(10);
 
   swiperModules = [IonicSlides];
 
