@@ -17,6 +17,18 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/home/home.page').then((m) => m.HomePage),
       },
+      {
+        path: 'tasks',
+        loadComponent: () =>
+          import('./pages/tasks/tasks.page').then((m) => m.TasksPage),
+      },
+      {
+        path: 'add-project',
+        loadComponent: () =>
+          import('./pages/add-project/add-project.page').then(
+            (m) => m.AddProjectPage
+          ),
+      },
     ],
   },
 
@@ -51,5 +63,28 @@ export const routes: Routes = [
       import(
         './pages/auth/reset-password/components/forget-password-form/forget-password-form.page'
       ).then((m) => m.ForgetPasswordFormPage),
+  },
+
+  {
+    path: 'task-item',
+    loadComponent: () =>
+      import('./pages/tasks/components/task-item/task-item.page').then(
+        (m) => m.TaskItemPage
+      ),
+  },
+  {
+    path: 'task-list',
+    loadComponent: () =>
+      import('./pages/tasks/components/task-list/task-list.page').then(
+        (m) => m.TaskListPage
+      ),
+  },
+
+  {
+    path: 'search-bar',
+    loadComponent: () =>
+      import('./pages/tasks/components/search-bar/search-bar.page').then(
+        (m) => m.SearchBarPage
+      ),
   },
 ];

@@ -1,0 +1,28 @@
+.date-swiper {
+  margin-top: 15px;
+  width: 100%;
+}
+
+.day-card {
+  text-align: center;
+  padding: 12px 0;
+  border-radius: 16px;
+  background: #f4f4ff;
+  color: #444;
+  transition: 0.2s ease-in-out;
+}
+
+.day-card.selected {
+  background: #6a4cff;
+  color: white;
+}
+
+.day-number {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.day-name {
+  font-size: 12px;
+  opacity: 0.8;
+}

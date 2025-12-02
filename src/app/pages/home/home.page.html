@@ -75,29 +75,13 @@
         space-between="10"
         class="in-progress-swiper"
       >
+        @for (i of [1,2,3,4,5,6,7]; track $index) {
         <swiper-slide>
           <app-in-progress-component
             [progress]="50"
           ></app-in-progress-component>
         </swiper-slide>
-
-        <swiper-slide>
-          <app-in-progress-component
-            [progress]="50"
-          ></app-in-progress-component>
-        </swiper-slide>
-
-        <swiper-slide>
-          <app-in-progress-component
-            [progress]="50"
-          ></app-in-progress-component>
-        </swiper-slide>
-
-        <swiper-slide>
-          <app-in-progress-component
-            [progress]="50"
-          ></app-in-progress-component>
-        </swiper-slide>
+        }
       </swiper-container>
     </div>
 
@@ -114,15 +98,9 @@
       </div>
 
       <div class="col gap-2">
+        @for (i of [1,3,5,6,7]; track $index) {
         <app-task-group-components></app-task-group-components>
-        <app-task-group-components></app-task-group-components>
-        <app-task-group-components></app-task-group-components>
-        <app-task-group-components></app-task-group-components>
-        <app-task-group-components></app-task-group-components>
-        <app-task-group-components></app-task-group-components>
-        <app-task-group-components></app-task-group-components>
-        <app-task-group-components></app-task-group-components>
-        <app-task-group-components></app-task-group-components>
+        }
       </div>
     </div>
   </div>

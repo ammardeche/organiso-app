@@ -4,18 +4,14 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent,
   IonHeader,
-  IonTitle,
   IonToolbar,
   IonButtons,
   IonButton,
-  IonIcon,
 } from '@ionic/angular/standalone';
 import { register } from 'swiper/element/bundle';
 
-import { RouterLink } from '@angular/router';
 import { TotalTasksComponentComponent } from './components/total-tasks-component/total-tasks-component.component';
 import { InProgressComponentComponent } from './components/in-progress-component/in-progress-component.component';
-import { Swiper, SwiperModule } from 'swiper/types';
 import { IonicSlides } from '@ionic/angular';
 
 import { SwiperOptions } from 'swiper/types';

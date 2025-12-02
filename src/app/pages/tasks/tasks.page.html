@@ -1,0 +1,29 @@
+<ion-header class="ion-no-border" [collapse]="'fade'">
+  <app-header title="tasks"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding h-screen">
+  <!-- effects -->
+  <img
+    class="absolute top-0 right-0 w-[400px] -z-40"
+    src="/assets/effects/Ellipse-yellow.png"
+    alt=""
+  />
+
+  <img
+    class="absolute top-0 left-0 w-[400px] -z-40"
+    src="/assets/effects/Ellipse-green.png"
+    alt=""
+  />
+
+  <img
+    class="absolute top-10 right-0 w-[300px] -z-40"
+    src="/assets/effects/Ellipse-violet.png"
+    alt=""
+  />
+
+  <div class="z-20 col gap-3">
+    <app-search-bar></app-search-bar>
+    <app-task-list></app-task-list>
+  </div>
+</ion-content>
