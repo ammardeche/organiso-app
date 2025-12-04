@@ -3,31 +3,29 @@ import {
   Component,
   effect,
   ElementRef,
+  EventEmitter,
   input,
   OnInit,
+  Output,
   output,
   signal,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import {
   IonList,
   IonItem,
-  IonSelect,
-  IonSelectOption,
   IonDatetime,
   IonModal,
-  IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButtons,
   IonButton,
-  IonIcon,
-  IonDatetimeButton,
-  IonPopover,
   IonLabel,
 } from '@ionic/angular/standalone';
+import { TaskGroup } from 'src/app/interfaces/ITaskFormData';
 
 @Component({
   selector: 'app-project-form',
@@ -46,83 +44,26 @@ import {
   ],
 })
 export class ProjectFormComponent implements OnInit {
-  // access to the template
+  // ===== TEMPLATE REFERENCES =====
   @ViewChild('startDateModal') startDateModal!: IonModal;
   @ViewChild('endDateModal') endDateModal!: IonModal;
-  @ViewChild('endDatePicker', { read: ElementRef }) endDatePicker!: ElementRef;
   @ViewChild('taskGroupModal') taskGroupModal!: IonModal;
 
-  @ViewChild('startDatePicker', { read: ElementRef })
-
-  // variables
-  initialValue = input<any | null>(null);
+  // ===== INPUTS/OUTPUTS =====
+  initialValue = input<any | null>(null); // For editing
   submitLabel = input<string>('Save');
   submitted = output<any>();
-  isModalOpen = false;
-  startDatePicker!: ElementRef;
-  startDate: Date | null = null;
-  endDate: Date | null = null;
-  isStartDatePopoverOpen = false;
-  isEndDatePopoverOpen = false;
-  selectedTaskGroup: any = null;
+
+  // ===== FORM =====
+  form: FormGroup;
+
+  // ===== MODAL STATES (only for UI) =====
+  isStartDatePickerOpen = false;
+  isEndDatePickerOpen = false;
   isTaskGroupPickerOpen = false;
-  // functions
-  ngAfterViewInit() {
-    // Add event listeners to prevent modal close when clicking inside datetime
-    this.setupDateTimeEventListeners();
-  }
 
-  private fb = new FormBuilder();
-
-  // 🔹 reactive form
-  form = this.fb.group({
-    taskGroup: ['', Validators.required],
-    name: ['', Validators.required],
-    description: [''],
-    startDate: ['', Validators.required],
-    endDate: ['', Validators.required],
-    // status: ['todo' as ProjectStatus, Validators.required],
-  });
-
-  // 🔹 signal that mirrors current form value
-  formValue = signal<any>({
-    taskGroup: '',
-    name: '',
-    description: '',
-    startDate: '',
-    endDate: '',
-    status: 'todo',
-  });
-
-  constructor() {
-    // update signal when form changes
-    this.form.valueChanges.subscribe((value) => {
-      // this.formValue.set(value as ProjectFormValue);
-    });
-
-    // when parent passes initialValue() (edit page) → patch form
-    effect(() => {
-      const value = this.initialValue();
-      if (value) {
-        this.form.patchValue(value);
-        this.formValue.set(value);
-      }
-    });
-  }
-
-  setStatus() {
-    this.form.patchValue({});
-  }
-
-  onSubmit() {
-    if (this.form.invalid) return;
-    // this.submitted.emit(this.form.getRawValue() as ProjectFormValue);
-  }
-  ngOnInit() {}
-
-  // dummy data
-
-  taskGroups = [
+  // ===== DATA =====
+  taskGroups: TaskGroup[] = [
     { id: 1, name: 'Development', description: 'Software development tasks' },
     { id: 2, name: 'Design', description: 'UI/UX design tasks' },
     { id: 3, name: 'Marketing', description: 'Marketing and promotion tasks' },
@@ -130,117 +71,257 @@ export class ProjectFormComponent implements OnInit {
     { id: 5, name: 'Administration', description: 'Administrative tasks' },
   ];
 
-  // function for the task group
-  async openTaskGroupPicker(event: MouseEvent) {
+  // ===== CONSTRUCTOR =====
+  constructor(private fb: FormBuilder) {
+    // Create the form with ALL fields
+    this.form = this.fb.group({
+      taskGroup: [null, Validators.required],
+      name: ['', Validators.required],
+      description: [''],
+      startDate: [null, Validators.required],
+      endDate: [null, Validators.required],
+      status: ['todo', Validators.required],
+    });
+  }
+
+  // ===== LIFECYCLE =====
+  ngOnInit() {
+    // Load initial data if provided (for editing)
+    const initialData = this.initialValue();
+    if (initialData) {
+      this.loadInitialData(initialData);
+    }
+  }
+
+  ngAfterViewInit() {
+    this.setupDateTimeEventListeners();
+  }
+
+  // ===== LOAD DATA FOR EDITING =====
+  private loadInitialData(data: any): void {
+    // Patch all values into the form
+    this.form.patchValue({
+      taskGroup: data.taskGroup || null,
+      name: data.name || '',
+      description: data.description || '',
+      startDate: data.startDate ? new Date(data.startDate) : null,
+      endDate: data.endDate ? new Date(data.endDate) : null,
+      status: data.status || 'todo',
+    });
+  }
+
+  // ===== FORM SUBMISSION =====
+  onSubmit(): void {
+    // Mark all fields as touched to show errors
+    this.markFormAsTouched();
+
+    // Check if form is valid
+    if (this.form.invalid) {
+      console.log('Form is invalid', this.form.errors);
+      return;
+    }
+
+    // Check date validation
+    if (!this.isDateRangeValid()) {
+      alert('End date must be after start date');
+      return;
+    }
+
+    // Get the form value
+    const formData = this.form.getRawValue();
+
+    // Emit the data to parent component
+    this.submitted.emit(formData);
+  }
+
+  // ===== TASK GROUP METHODS =====
+  async openTaskGroupPicker(event: MouseEvent): Promise<void> {
     event.stopPropagation();
     this.isTaskGroupPickerOpen = true;
     await this.taskGroupModal.present();
   }
 
-  onTaskGroupModalPresent() {
-    this.isTaskGroupPickerOpen = true;
-  }
-
-  onTaskGroupModalDismiss() {
-    this.isTaskGroupPickerOpen = false;
-  }
-
-  selectTaskGroup(group: any) {
-    this.selectedTaskGroup = group;
-    // Don't dismiss modal automatically - let user click Done
-    // But you can auto-dismiss if you prefer:
-    // this.closeTaskGroupModal();
-  }
-
-  clearTaskGroup() {
-    this.selectedTaskGroup = null;
+  selectTaskGroup(group: TaskGroup): void {
+    // Update the FORM
+    this.form.patchValue({
+      taskGroup: group,
+    });
     this.closeTaskGroupModal();
   }
 
-  closeTaskGroupModal() {
+  clearTaskGroup(): void {
+    // Update the FORM
+    this.form.patchValue({
+      taskGroup: null,
+    });
+    this.closeTaskGroupModal();
+  }
+
+  closeTaskGroupModal(): void {
+    this.isTaskGroupPickerOpen = false;
     this.taskGroupModal.dismiss();
   }
 
-  // functions for the start & end date
-
-  async openStartDatePicker(event: MouseEvent) {
+  // ===== DATE METHODS =====
+  async openStartDatePicker(event: MouseEvent): Promise<void> {
     event.stopPropagation();
-    this.isStartDatePopoverOpen = true;
+    this.isStartDatePickerOpen = true;
     await this.startDateModal.present();
   }
 
-  async openEndDatePicker(event: MouseEvent) {
+  async openEndDatePicker(event: MouseEvent): Promise<void> {
     event.stopPropagation();
-    this.isEndDatePopoverOpen = true;
+    this.isEndDatePickerOpen = true;
     await this.endDateModal.present();
   }
 
-  onStartDateModalPresent() {
-    this.isStartDatePopoverOpen = true;
+  onStartDateSelected(event: any): void {
+    const selectedDate = new Date(event.detail.value);
+
+    // Update the FORM
+    this.form.patchValue({
+      startDate: selectedDate,
+    });
+
+    // Validate date range
+    this.validateDateRange();
   }
 
-  onStartDateModalDismiss() {
-    this.isStartDatePopoverOpen = false;
+  onEndDateSelected(event: any): void {
+    const selectedDate = new Date(event.detail.value);
+
+    // Update the FORM
+    this.form.patchValue({
+      endDate: selectedDate,
+    });
+
+    // Validate date range
+    this.validateDateRange();
   }
 
-  onEndDateModalPresent() {
-    this.isEndDatePopoverOpen = true;
-  }
-
-  onEndDateModalDismiss() {
-    this.isEndDatePopoverOpen = false;
-  }
-
-  onStartDateSelected(event: any) {
-    this.startDate = new Date(event.detail.value);
-
-    // Optional: If end date is before start date, reset end date
-    if (this.endDate && this.endDate < this.startDate) {
-      this.endDate = null;
-    }
-
-    // Don't dismiss modal automatically - let user click Done
-  }
-
-  onEndDateSelected(event: any) {
-    this.endDate = new Date(event.detail.value);
-
-    // Optional: If start date is after end date, reset start date
-    if (this.startDate && this.startDate > this.endDate) {
-      this.startDate = null;
-    }
-  }
-
-  clearStartDate() {
-    this.startDate = null;
+  clearStartDate(): void {
+    // Update the FORM
+    this.form.patchValue({
+      startDate: null,
+    });
     this.closeStartDateModal();
   }
 
-  clearEndDate() {
-    this.endDate = null;
+  clearEndDate(): void {
+    // Update the FORM
+    this.form.patchValue({
+      endDate: null,
+    });
     this.closeEndDateModal();
   }
 
-  closeStartDateModal() {
+  closeStartDateModal(): void {
+    this.isStartDatePickerOpen = false;
     this.startDateModal.dismiss();
   }
 
-  closeEndDateModal() {
+  closeEndDateModal(): void {
+    this.isEndDatePickerOpen = false;
     this.endDateModal.dismiss();
   }
 
-  // Prevent event bubbling for arrow clicks
-  onArrowClick(event: MouseEvent, type: 'start' | 'end') {
-    event.stopPropagation();
-    if (type === 'start') {
-      this.openStartDatePicker(event);
-    } else {
-      this.openEndDatePicker(event);
+  // ===== STATUS METHODS =====
+  updateStatus(newStatus: 'todo' | 'inprogress' | 'done'): void {
+    // Update the FORM
+    this.form.patchValue({
+      status: newStatus,
+    });
+  }
+
+  // Helper to get status class for UI
+  getStatusClass(statusType: 'todo' | 'inprogress' | 'done'): string {
+    const currentStatus = this.form.get('status')?.value;
+    const isSelected = currentStatus === statusType;
+
+    const baseClass = 'status-button ';
+    const typeClasses = {
+      todo: isSelected ? 'status-todo-selected' : 'status-todo',
+      inprogress: isSelected
+        ? 'status-inprogress-selected'
+        : 'status-inprogress',
+      done: isSelected ? 'status-done-selected' : 'status-done',
+    };
+
+    return (
+      baseClass +
+      (isSelected ? 'status-selected ' : '') +
+      typeClasses[statusType]
+    );
+  }
+
+  // ===== VALIDATION HELPERS =====
+  private validateDateRange(): void {
+    const startDate = this.form.get('startDate')?.value;
+    const endDate = this.form.get('endDate')?.value;
+
+    if (startDate && endDate && startDate > endDate) {
+      // If start date is after end date, clear end date
+      this.form.patchValue({
+        endDate: null,
+      });
     }
   }
 
-  setupDateTimeEventListeners() {
-    // Prevent modal close when interacting with datetime component
+  private isDateRangeValid(): boolean {
+    const startDate = this.form.get('startDate')?.value;
+    const endDate = this.form.get('endDate')?.value;
+
+    if (!startDate || !endDate) return true;
+    return startDate <= endDate;
+  }
+
+  private markFormAsTouched(): void {
+    Object.keys(this.form.controls).forEach((key) => {
+      const control = this.form.get(key);
+      control?.markAsTouched();
+    });
+  }
+
+  // ===== HELPER GETTERS FOR TEMPLATE =====
+  get selectedTaskGroup(): TaskGroup | null {
+    return this.form.get('taskGroup')?.value;
+  }
+
+  get startDate(): Date | null {
+    return this.form.get('startDate')?.value;
+  }
+
+  get endDate(): Date | null {
+    return this.form.get('endDate')?.value;
+  }
+
+  // ===== MODAL EVENT HANDLERS =====
+  onStartDateModalPresent(): void {
+    this.isStartDatePickerOpen = true;
+  }
+
+  onStartDateModalDismiss(): void {
+    this.isStartDatePickerOpen = false;
+  }
+
+  onEndDateModalPresent(): void {
+    this.isEndDatePickerOpen = true;
+  }
+
+  onEndDateModalDismiss(): void {
+    this.isEndDatePickerOpen = false;
+  }
+
+  onTaskGroupModalPresent(): void {
+    this.isTaskGroupPickerOpen = true;
+  }
+
+  onTaskGroupModalDismiss(): void {
+    this.isTaskGroupPickerOpen = false;
+  }
+
+  // ===== EVENT LISTENERS =====
+  private setupDateTimeEventListeners(): void {
     setTimeout(() => {
       const startDatetime = document.getElementById('startDatePicker');
       const endDatetime = document.getElementById('endDatePicker');
@@ -249,33 +330,23 @@ export class ProjectFormComponent implements OnInit {
         startDatetime.addEventListener('click', (event) => {
           event.stopPropagation();
         });
-
-        // Prevent month/year picker from closing modal
-        const monthButtons = startDatetime.querySelectorAll(
-          '.datetime-year, .datetime-month, ion-picker-column'
-        );
-        monthButtons.forEach((button) => {
-          button.addEventListener('click', (event) => {
-            event.stopPropagation();
-          });
-        });
       }
 
       if (endDatetime) {
         endDatetime.addEventListener('click', (event) => {
           event.stopPropagation();
         });
-
-        // Prevent month/year picker from closing modal
-        const monthButtons = endDatetime.querySelectorAll(
-          '.datetime-year, .datetime-month, ion-picker-column'
-        );
-        monthButtons.forEach((button) => {
-          button.addEventListener('click', (event) => {
-            event.stopPropagation();
-          });
-        });
       }
     }, 500);
+  }
+
+  // ===== ARROW CLICK HANDLER =====
+  onArrowClick(event: MouseEvent, type: 'start' | 'end'): void {
+    event.stopPropagation();
+    if (type === 'start') {
+      this.openStartDatePicker(event);
+    } else {
+      this.openEndDatePicker(event);
+    }
   }
 }

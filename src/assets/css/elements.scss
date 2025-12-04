@@ -3,3 +3,97 @@
 .btn-primary {
   @apply bg-[#6155F5] text-lg text-white font-normal py-2 px-6 w-full rounded-xl;
 }
+
+/* Status Button Styles */
+.status-selector {
+  @apply mb-4;
+}
+
+.status-button {
+  @apply flex items-center gap-2 px-4 py-2 rounded-lg border transition-all duration-200 
+         hover:shadow-sm active:scale-95 select-none;
+}
+
+.status-dot {
+  @apply w-2 h-2 rounded-full;
+}
+
+.status-text {
+  @apply text-sm font-medium;
+}
+
+/* Selected states */
+.status-selected {
+  @apply border-2 font-semibold;
+}
+
+.status-todo {
+  @apply bg-gray-50 border-gray-200 text-gray-700;
+}
+
+.status-todo-selected {
+  @apply border-gray-800 bg-gray-100;
+}
+
+.status-inprogress {
+  @apply bg-yellow-50 border-yellow-200 text-yellow-700;
+}
+
+.status-inprogress-selected {
+  @apply border-yellow-600 bg-yellow-100;
+}
+
+.status-done {
+  @apply bg-green-50 border-green-200 text-green-700;
+}
+
+.status-done-selected {
+  @apply border-green-600 bg-green-100;
+}
+
+/* Arrow rotation */
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+/* Modal styling */
+.custom-datetime-modal {
+  --border-radius: 16px 16px 0 0;
+  --height: auto;
+  --max-height: 70vh;
+}
+
+.custom-datetime-modal::part(content) {
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+}
+
+/* Form validation */
+.text-red-500 {
+  color: #ef4444;
+}
+
+/* Button styling */
+.btn-primary {
+  @apply w-full py-3 bg-black text-white rounded-lg font-medium 
+         hover:bg-gray-800 active:bg-gray-900 transition-colors 
+         disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* Task group selected item */
+.bg-blue-50 {
+  background-color: #eff6ff;
+}
+
+/* Input styling */
+input,
+textarea {
+  &:focus {
+    @apply outline-none ring-0;
+  }
+}
+
+/* Validation error styling */
+.form-error {
+  @apply text-red-500 text-xs mt-1;
+}

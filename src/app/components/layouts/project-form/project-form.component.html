@@ -7,13 +7,13 @@
     <div class="row-between-center w-full">
       <div class="colgap-1 flex-1">
         <div class="capitalize font-bold text-sm text-gray-500">Task Group</div>
-        @if (selectedTaskGroup) {
+        @if (form.get('taskGroup')?.value) {
         <div class="text-sm text-gray-800 font-medium">
-          {{ selectedTaskGroup.name }}
-          @if (selectedTaskGroup.description) {
-          <span class="text-gray-500 ml-2"
-            >- {{ selectedTaskGroup.description }}</span
-          >
+          {{ form.get("taskGroup")?.value?.name }}
+          @if (form.get('taskGroup')?.value?.description) {
+          <span class="text-gray-500 ml-2">
+            - {{ form.get("taskGroup")?.value?.description }}
+          </span>
           }
         </div>
         } @else {
@@ -67,13 +67,11 @@
               button
               detail="false"
               (click)="selectTaskGroup(group)"
-              [class.bg-blue-50]="selectedTaskGroup?.id === group.id"
-              class="border-b border-gray-100 last:border-b-0"
+              [class.bg-blue-50]="form.get('taskGroup')?.value?.id === group.id"
+              class="border-b border-gray-100 last:border-b-0 !p-2"
             >
               <ion-label class="py-3">
                 <div class="flex items-center gap-3">
-                  <!-- Color indicator -->
-                  <div class="w-3 h-3 rounded-full flex-shrink-0"></div>
                   <div>
                     <h3 class="font-medium text-gray-800">{{ group.name }}</h3>
                     @if (group.description) {
@@ -84,7 +82,7 @@
                   </div>
                 </div>
               </ion-label>
-              @if (selectedTaskGroup?.id === group.id) {
+              @if (form.get('taskGroup')?.value?.id === group.id) {
               <div slot="end" class="text-blue-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -139,6 +137,7 @@
       </div>
     </ng-template>
   </ion-modal>
+
   <!-- Project Name -->
   <div
     class="rounded-3xl bg-white px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.06)]"
@@ -148,7 +147,11 @@
       type="text"
       formControlName="name"
       class="w-full bg-transparent outline-none text-sm font-semibold"
+      placeholder="Enter project name"
     />
+    @if (form.get('name')?.invalid && form.get('name')?.touched) {
+    <div class="text-red-500 text-xs mt-1">Project name is required</div>
+    }
   </div>
 
   <!-- Description -->
@@ -160,8 +163,10 @@
       rows="4"
       formControlName="description"
       class="w-full bg-transparent outline-none text-sm text-gray-700"
+      placeholder="Enter project description"
     ></textarea>
   </div>
+
   <!-- START DATE -->
   <div
     class="relative bg-white py-3 px-4 shadow-sm cursor-pointer rounded-lg transition-all duration-200 hover:bg-gray-50 active:bg-gray-100 select-none group"
@@ -170,9 +175,9 @@
     <div class="row-between-center w-full">
       <div class="colgap-1 flex-1">
         <div class="capitalize font-bold text-sm text-gray-500">Start Date</div>
-        @if (startDate) {
+        @if (form.get('startDate')?.value) {
         <div class="text-sm text-gray-800 font-medium">
-          {{ startDate | date : "mediumDate" }}
+          {{ form.get("startDate")?.value | date : "mediumDate" }}
         </div>
         } @else {
         <div class="text-sm text-gray-400">Select start date</div>
@@ -181,14 +186,14 @@
       <!-- Arrow Indicator -->
       <div
         class="text-gray-400 transition-transform duration-200 group-hover:text-gray-600 flex-shrink-0 ml-2"
-        (click)="openStartDatePicker($event); $event.stopPropagation()"
+        (click)="onArrowClick($event, 'start')"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5"
           viewBox="0 0 20 20"
           fill="currentColor"
-          [class.rotate-180]="isStartDatePopoverOpen"
+          [class.rotate-180]="isStartDatePickerOpen"
         >
           <path
             fill-rule="evenodd"
@@ -208,9 +213,9 @@
     <div class="row-between-center w-full">
       <div class="colgap-1 flex-1">
         <div class="capitalize font-bold text-sm text-gray-500">End Date</div>
-        @if (endDate) {
+        @if (form.get('endDate')?.value) {
         <div class="text-sm text-gray-800 font-medium">
-          {{ endDate | date : "mediumDate" }}
+          {{ form.get("endDate")?.value | date : "mediumDate" }}
         </div>
         } @else {
         <div class="text-sm text-gray-400">Select end date</div>
@@ -219,14 +224,14 @@
       <!-- Arrow Indicator -->
       <div
         class="text-gray-400 transition-transform duration-200 group-hover:text-gray-600 flex-shrink-0 ml-2"
-        (click)="openEndDatePicker($event); $event.stopPropagation()"
+        (click)="onArrowClick($event, 'end')"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5"
           viewBox="0 0 20 20"
           fill="currentColor"
-          [class.rotate-180]="isEndDatePopoverOpen"
+          [class.rotate-180]="isEndDatePickerOpen"
         >
           <path
             fill-rule="evenodd"
@@ -238,7 +243,7 @@
     </div>
   </div>
 
-  <!-- MODALS instead of popovers (more stable) -->
+  <!-- MODALS for Dates -->
   <ion-modal
     #startDateModal
     [keepContentsMounted]="true"
@@ -360,34 +365,45 @@
       </div>
     </ng-template>
   </ion-modal>
-  <!-- Status buttons (using formValue() signal) -->
-  <div class="flex items-center justify-center gap-3 mt-2 text-xs">
-    <button
-      type="button"
-      class="rounded-full border px-5 py-1"
-      [class.bg-black]="formValue().status === 'todo'"
-      [class.text-white]="formValue().status === 'todo'"
-    >
-      To-Do
-    </button>
 
-    <button
-      type="button"
-      class="rounded-full border px-5 py-1"
-      [class.bg-black]="formValue().status === 'done'"
-      [class.text-white]="formValue().status === 'done'"
-    >
-      Done
-    </button>
+  <!-- Status buttons -->
+  <div class="status-selector">
+    <div class="text-xs font-medium text-gray-500 mb-2">Status</div>
 
-    <button
-      type="button"
-      class="rounded-full border px-5 py-1"
-      [class.bg-black]="formValue().status === 'inprogress'"
-      [class.text-white]="formValue().status === 'inprogress'"
-    >
-      InProgress
-    </button>
+    <div class="flex items-center gap-2">
+      <!-- To-Do -->
+      <button
+        type="button"
+        class="status-button"
+        [class]="getStatusClass('todo')"
+        (click)="updateStatus('todo')"
+      >
+        <span class="status-dot bg-gray-400"></span>
+        <span class="status-text">To-Do</span>
+      </button>
+
+      <!-- In Progress -->
+      <button
+        type="button"
+        class="status-button"
+        [class]="getStatusClass('inprogress')"
+        (click)="updateStatus('inprogress')"
+      >
+        <span class="status-dot bg-yellow-500"></span>
+        <span class="status-text">In Progress</span>
+      </button>
+
+      <!-- Done -->
+      <button
+        type="button"
+        class="status-button"
+        [class]="getStatusClass('done')"
+        (click)="updateStatus('done')"
+      >
+        <span class="status-dot bg-green-500"></span>
+        <span class="status-text">Done</span>
+      </button>
+    </div>
   </div>
 
   <!-- Submit -->

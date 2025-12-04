@@ -34,27 +34,3 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-
-.my-date {
-  /* Main background */
-  --background: #ffffff; /* white */
-  --background-rgb: 255, 255, 255;
-
-  /* Text */
-  --ion-text-color: #000; /* black text */
-  font-weight: bold; /* make all text bold */
-
-  /* Calendar day buttons */
-  --ion-color-step-850: #000; /* day text */
-  --ion-color-step-300: #000;
-
-  /* Selected date */
-  --highlight-background: #000; /* selected day bg */
-  --highlight-color: #fff; /* selected day text */
-
-  /* Today circle */
-  --today-border-color: #000;
-
-  /* Remove default shadows */
-  --box-shadow: none;
-}
