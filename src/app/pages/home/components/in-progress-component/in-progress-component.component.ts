@@ -5,7 +5,7 @@ import { IonProgressBar } from '@ionic/angular/standalone';
   selector: 'app-in-progress-component',
   templateUrl: './in-progress-component.component.html',
   styleUrls: ['./in-progress-component.component.scss'],
-  imports: [IonProgressBar],
+  imports: [],
 })
 export class InProgressComponentComponent implements OnInit {
   progress = input<number>(20);

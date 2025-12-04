@@ -29,6 +29,13 @@ export const routes: Routes = [
             (m) => m.AddProjectPage
           ),
       },
+      {
+        path: 'todays-tasks',
+        loadComponent: () =>
+          import('./pages/todays-tasks/todays-tasks.page').then(
+            (m) => m.TodaysTasksPage
+          ),
+      },
     ],
   },
 
@@ -85,6 +92,14 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/tasks/components/search-bar/search-bar.page').then(
         (m) => m.SearchBarPage
+      ),
+  },
+
+  {
+    path: 'edite-project',
+    loadComponent: () =>
+      import('./pages/edite-project/edite-project.page').then(
+        (m) => m.EditeProjectPage
       ),
   },
 ];

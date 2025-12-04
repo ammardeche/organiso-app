@@ -14,15 +14,7 @@ import {
   templateUrl: './search-bar.page.html',
   styleUrls: ['./search-bar.page.scss'],
   standalone: true,
-  imports: [
-    IonIcon,
-    IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
-    CommonModule,
-    FormsModule,
-  ],
+  imports: [CommonModule, FormsModule],
 })
 export class SearchBarPage implements OnInit {
   constructor() {}

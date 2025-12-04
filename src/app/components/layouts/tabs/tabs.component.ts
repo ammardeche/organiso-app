@@ -17,7 +17,7 @@ import {
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.scss'],
-  imports: [IonLabel, IonTabBar, IonTabs, IonTabButton, NgClass],
+  imports: [IonTabBar, IonTabs, IonTabButton, NgClass],
 })
 export class TabsComponent implements OnInit {
   public environmentInjector = inject(EnvironmentInjector);

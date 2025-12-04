@@ -8,24 +8,15 @@ import {
   IonToolbar,
 } from '@ionic/angular/standalone';
 import { HeaderComponent } from 'src/app/components/layouts/header/header.component';
-import { ProjectFormComponent } from 'src/app/components/layouts/project-form/project-form.component';
 
 @Component({
-  selector: 'app-add-project',
-  templateUrl: './add-project.page.html',
-  styleUrls: ['./add-project.page.scss'],
+  selector: 'app-todays-tasks',
+  templateUrl: './todays-tasks.page.html',
+  styleUrls: ['./todays-tasks.page.scss'],
   standalone: true,
-  imports: [
-    IonContent,
-    IonHeader,
-
-    CommonModule,
-    FormsModule,
-    HeaderComponent,
-    ProjectFormComponent,
-  ],
+  imports: [IonContent, IonHeader, CommonModule, FormsModule, HeaderComponent],
 })
-export class AddProjectPage implements OnInit {
+export class TodaysTasksPage implements OnInit {
   constructor() {}
 
   ngOnInit() {}

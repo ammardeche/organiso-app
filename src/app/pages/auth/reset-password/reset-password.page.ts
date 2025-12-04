@@ -14,15 +14,7 @@ import { ForgetPasswordFormPage } from './components/forget-password-form/forget
   templateUrl: './reset-password.page.html',
   styleUrls: ['./reset-password.page.scss'],
   standalone: true,
-  imports: [
-    IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
-    CommonModule,
-    FormsModule,
-    ForgetPasswordFormPage,
-  ],
+  imports: [IonContent, CommonModule, FormsModule, ForgetPasswordFormPage],
 })
 export class ResetPasswordPage implements OnInit {
   constructor() {}

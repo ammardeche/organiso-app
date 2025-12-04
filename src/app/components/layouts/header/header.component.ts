@@ -13,14 +13,7 @@ import {
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  imports: [
-    IonTitle,
-    IonBackButton,
-    IonButtons,
-    IonButton,
-    IonToolbar,
-    RouterLink,
-  ],
+  imports: [IonTitle, IonBackButton, IonButtons, IonToolbar, RouterLink],
 })
 export class HeaderComponent implements OnInit {
   title = input<string>();

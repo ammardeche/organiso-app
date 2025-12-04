@@ -18,7 +18,7 @@ import {
   templateUrl: './forget-password-form.page.html',
   styleUrls: ['./forget-password-form.page.scss'],
   standalone: true,
-  imports: [IonContent, ReactiveFormsModule, CommonModule, FormsModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule],
 })
 export class ForgetPasswordFormPage implements OnInit {
   isFormSubmitted = false;

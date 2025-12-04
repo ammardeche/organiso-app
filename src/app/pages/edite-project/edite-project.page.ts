@@ -7,13 +7,13 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
-import { HeaderComponent } from 'src/app/components/layouts/header/header.component';
 import { ProjectFormComponent } from 'src/app/components/layouts/project-form/project-form.component';
+import { HeaderComponent } from 'src/app/components/layouts/header/header.component';
 
 @Component({
-  selector: 'app-add-project',
-  templateUrl: './add-project.page.html',
-  styleUrls: ['./add-project.page.scss'],
+  selector: 'app-edite-project',
+  templateUrl: './edite-project.page.html',
+  styleUrls: ['./edite-project.page.scss'],
   standalone: true,
   imports: [
     IonContent,
@@ -21,11 +21,11 @@ import { ProjectFormComponent } from 'src/app/components/layouts/project-form/pr
 
     CommonModule,
     FormsModule,
-    HeaderComponent,
     ProjectFormComponent,
+    HeaderComponent,
   ],
 })
-export class AddProjectPage implements OnInit {
+export class EditeProjectPage implements OnInit {
   constructor() {}
 
   ngOnInit() {}

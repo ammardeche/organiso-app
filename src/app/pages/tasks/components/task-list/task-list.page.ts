@@ -14,15 +14,7 @@ import { TaskItemPage } from '../task-item/task-item.page';
   templateUrl: './task-list.page.html',
   styleUrls: ['./task-list.page.scss'],
   standalone: true,
-  imports: [
-    IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
-    CommonModule,
-    FormsModule,
-    TaskItemPage,
-  ],
+  imports: [CommonModule, FormsModule, TaskItemPage],
 })
 export class TaskListPage implements OnInit {
   constructor() {}

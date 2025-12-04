@@ -21,7 +21,6 @@ import { TaskListPage } from './components/task-list/task-list.page';
     CommonModule,
     FormsModule,
     HeaderComponent,
-    RouterLink,
     SearchBarPage,
     TaskListPage,
   ],
