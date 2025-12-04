@@ -1,0 +1,29 @@
+ion-popover::part(content) {
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+/* Custom datetime styling */
+ion-datetime {
+  --background: white;
+  --wheel-highlight-background: #f3f4f6;
+  --wheel-fade-background-rgb: 255, 255, 255;
+}
+
+/* Arrow animation on hover */
+.group:hover .text-gray-400 {
+  transform: translateY(1px);
+}
+
+/* Optional: Add focus styles for accessibility */
+.bg-white:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+²
+/* Optional: Selected state styling */
+.selected-date {
+  background-color: #eff6ff;
+  border-left: 3px solid #3b82f6;
+}
