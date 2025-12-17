@@ -1,0 +1,31 @@
+.tab-selected {
+  .tab-button-container {
+    ion-label {
+      color: var(--color-white);
+      max-width: 200px;
+    }
+    .tab-button-icon {
+      svg {
+        &.selected {
+          display: none;
+        }
+        &.not-selected {
+          display: block;
+        }
+        color: var(--color-green);
+      }
+    }
+    .tab-button-big-icon {
+      border: 2px solid transparent;
+      background: linear-gradient(var(--color-section), var(--color-section))
+          padding-box,
+        linear-gradient(
+            to bottom,
+            var(--color-purple) 0%,
+            var(--color-light-purple) 50%,
+            var(--color-green) 100%
+          )
+          border-box;
+    }
+  }
+}

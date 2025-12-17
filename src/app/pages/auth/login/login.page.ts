@@ -15,7 +15,8 @@ import {
   IonApp,
 } from '@ionic/angular/standalone';
 import { HeaderComponent } from 'src/app/components/layouts/header/header.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from 'src/app/services/auth-service.service';
 
 @Component({
   selector: 'app-login',
@@ -33,29 +34,61 @@ import { RouterLink } from '@angular/router';
   ],
 })
 export class LoginPage implements OnInit {
+  // life cycle hooks
+  ngOnInit() {}
+  // constructor
+  constructor() {}
+  // variables
+  authService = inject(AuthService);
+  router = inject(Router);
   isFormSubmitted = false;
   rememberMe: boolean = true;
-
+  isLoading = false;
+  // form
   private readonly fb = inject(FormBuilder);
   readonly form: FormGroup = this.fb.group({
-    email: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
     rememberMe: [false], // 👈 added checkbox control
   });
 
   // password visibility
-  passwordVisibility: { [key: string]: boolean } = {
-    current_password: false,
-    new_password: false,
-    confirm_password: false,
-  };
-
-  togglePassword(field: string) {
-    this.passwordVisibility[field] = !this.passwordVisibility[field];
+  passwordVisibility: boolean = false;
+  togglePassword() {
+    this.passwordVisibility = !this.passwordVisibility;
   }
 
-  submit() {}
-  constructor() {}
+  submit() {
+    this.isFormSubmitted = true;
 
-  ngOnInit() {}
+    if (this.form.invalid) {
+      return;
+    }
+    this.isLoading = true;
+
+    const { email, password, rememberMe } = this.form.value;
+
+    this.authService.login(email, password).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+
+        if (rememberMe) {
+          localStorage.setItem('rememberMe', 'true');
+        }
+
+        this.router.navigate(['/home']);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        console.error('Login error:', error);
+      },
+    });
+
+    console.log(this.form.value);
+  }
+
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.form.get(fieldName);
+    return !!field && field.invalid && (field.touched || this.isFormSubmitted);
+  }
 }

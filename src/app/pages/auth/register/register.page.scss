@@ -1,0 +1,36 @@
+.error-message {
+  color: #ef4444; // red-500
+  font-size: 0.875rem; // text-sm
+  margin-top: 0.25rem;
+}
+
+.error-border {
+  border-color: #ef4444 !important;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+// Placeholder styles for icons - you can replace with actual SVGs
+.google-icon {
+  width: 20px;
+  height: 20px;
+  background-color: #4285f4; // Google blue
+  border-radius: 2px;
+}
+
+.eye-icon {
+  width: 18px;
+  height: 14px;
+  background-color: #818898;
+  border-radius: 1px;
+}
+
+.checkmark-icon {
+  width: 12px;
+  height: 9px;
+  background-color: white;
+  clip-path: polygon(0 45%, 35% 100%, 100% 20%, 85% 0%, 35% 65%, 15% 45%);
+}

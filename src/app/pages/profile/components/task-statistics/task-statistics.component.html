@@ -1,0 +1,17 @@
+<!-- Status 3 Boxes -->
+<div class="grid grid-cols-3 gap-3 w-full">
+  @for (s of statuses; track s.name) {
+  <div
+    (click)="selectStatus(s.name)"
+    class="rounded-xl p-3 text-center font-medium cursor-pointer transition"
+    [ngClass]="
+      selectedStatus === s.name
+        ? 'bg-[#5F33E1] text-white shadow-md'
+        : 'bg-gray-200 text-gray-600'
+    "
+  >
+    <div class="text-xl font-bold">{{ s.count }}</div>
+    <div class="text-xs">{{ s.name }}</div>
+  </div>
+  }
+</div>

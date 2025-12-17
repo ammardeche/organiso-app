@@ -1,5 +1,5 @@
 <!-- today-tasks.page.html -->
-<ion-header class="ion-no-border">
+<ion-header class="ion-no-border" [collapse]="'fade'">
   <app-header title="today's tasks"></app-header>
 </ion-header>
 
@@ -23,5 +23,44 @@
 
   <!-- calendar -->
 
+  <div class="">
+    <app-weekly-days-component></app-weekly-days-component>
+  </div>
+
+  <!-- status btns -->
+  <div class="mt-8">
+    <swiper-container
+      slides-per-view="2.5"
+      space-between="5"
+      class="days-swiper"
+    >
+      @for (b of buttons; track b; let i = $index) {
+      <swiper-slide>
+        <button
+          (click)="onStatusChange(b)"
+          class="!font-medium !rounded-xl !px-2.5 !py-3 !text-center !w-full"
+          [ngClass]="{
+    'bg-[#5F33E1] text-white': currentStatus === b.trim(),
+    'bg-[#5F33E1]/10 text-[#5F33E1]': currentStatus !== b.trim()
+  }"
+        >
+          {{ b }}
+        </button>
+      </swiper-slide>
+      }
+    </swiper-container>
+  </div>
+
   <!-- tasks with status -->
+  <div class="mt-4">
+    @switch (currentStatus) { @case("To Do") {
+    <app-to-do-tasks-component class="bg-red-300"></app-to-do-tasks-component>
+    } @case("In Progress") {
+    <app-in-progress-tasks-component></app-in-progress-tasks-component>
+    } @case("Completed") {
+    <app-completed-tasks-component></app-completed-tasks-component>
+    } @case("All") {
+    <app-all-tasks-component></app-all-tasks-component>
+    } @default {} }
+  </div>
 </ion-content>

@@ -1,0 +1,125 @@
+<ion-header class="ion-no-border" [collapse]="'fade'">
+  <app-header title="profile"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding h-screen">
+  <!-- effects -->
+
+  <img
+    class="absolute top-0 right-0 w-[400px] -z-30"
+    src="/assets/effects/Ellipse-yellow.png"
+    alt=""
+  />
+
+  <img
+    class="absolute top-0 left-0 w-[400px] -z-30"
+    src="/assets/effects/Ellipse-green.png"
+    alt=""
+  />
+
+  <img
+    class="absolute top-10 right-0 w-[300px] -z-30"
+    src="/assets/effects/Ellipse-violet.png"
+    alt=""
+  />
+
+  <app-profile-header-component></app-profile-header-component>
+
+  <div class="mt-2">
+    <app-task-statistics></app-task-statistics>
+  </div>
+
+  <div class="mt-6 space-y-4">
+    <!-- Update profile -->
+    <button
+      (click)="openUpdateUserInformationModal()"
+      class="!w-full !bg-white !p-4 !rounded-3xl !shadow-sm !row-between-center"
+    >
+      <!-- Icon Left -->
+      <div class="row-center-center gap-3">
+        <div class="rounded-full bg-purple-100row-center-center">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#A855F7"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+
+        <!-- Texts -->
+        <div class="text-left">
+          <p class="font-semibold text-[16px] leading-tight">Username</p>
+          <p class="text-xs text-gray-500 leading-tight">@your_email</p>
+        </div>
+      </div>
+
+      <!-- Arrow -->
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="text-gray-400"
+      >
+        <path d="M9 18l6-6-6-6"></path>
+      </svg>
+    </button>
+
+    <!-- Update password -->
+    <button
+      (click)="openUpdatePasswordModal()"
+      class="!w-full !bg-white !p-4 !rounded-3xl !shadow-sm !row-between-center"
+    >
+      <!-- Icon Left -->
+      <div class="row-center-center gap-3">
+        <div class="rounded-full bg-blue-100row-center-center">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#3B82F6"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M17 11V7a5 5 0 0 0-10 0v4"></path>
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          </svg>
+        </div>
+
+        <!-- Texts -->
+        <div class="text-left">
+          <p class="font-semibold text-[16px] leading-tight">Password</p>
+          <p class="text-xs text-gray-500 leading-tight">Change password</p>
+        </div>
+      </div>
+
+      <!-- Arrow -->
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="text-gray-400"
+      >
+        <path d="M9 18l6-6-6-6"></path>
+      </svg>
+    </button>
+  </div>
+</ion-content>

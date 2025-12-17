@@ -1,13 +1,24 @@
 import { Routes } from '@angular/router';
 import { TabsComponent } from './components/layouts/tabs/tabs.component';
+import { isNotLoggedInGuard } from './guards/is-not-logged-in-guard.guard';
+import { isLoggedInGuard } from './guards/is-logged-in-guard.guard';
 
 export const routes: Routes = [
+  // register and login routes
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./pages/auth/register/register.page').then((m) => m.RegisterPage),
+    canActivate: [isNotLoggedInGuard],
+  },
   {
     path: 'login',
     loadComponent: () =>
       import('./pages/auth/login/login.page').then((m) => m.LoginPage),
-  },
 
+    canActivate: [isNotLoggedInGuard],
+  },
+  // tabs routes
   {
     path: '',
     component: TabsComponent,
@@ -36,20 +47,26 @@ export const routes: Routes = [
             (m) => m.TodaysTasksPage
           ),
       },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./pages/profile/profile.page').then((m) => m.ProfilePage),
+      },
     ],
+
+    canActivate: [isLoggedInGuard],
   },
 
-  // redirect page
+  // splash
   {
     path: '',
     redirectTo: 'splash',
     pathMatch: 'full',
   },
-
   {
-    path: 'register',
+    path: 'splash',
     loadComponent: () =>
-      import('./pages/auth/register/register.page').then((m) => m.RegisterPage),
+      import('./pages/splash/splash.page').then((m) => m.SplashPage),
   },
   {
     path: 'reset-password',
@@ -57,11 +74,6 @@ export const routes: Routes = [
       import('./pages/auth/reset-password/reset-password.page').then(
         (m) => m.ResetPasswordPage
       ),
-  },
-  {
-    path: 'splash',
-    loadComponent: () =>
-      import('./pages/splash/splash.page').then((m) => m.SplashPage),
   },
 
   {
@@ -100,6 +112,21 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/edite-project/edite-project.page').then(
         (m) => m.EditeProjectPage
+      ),
+  },
+
+  {
+    path: 'update-profile',
+    loadComponent: () =>
+      import(
+        './pages/profile/pages/update-information/update-information.page'
+      ).then((m) => m.UpdateInformationPage),
+  },
+  {
+    path: 'update-password',
+    loadComponent: () =>
+      import('./pages/profile/pages/update-password/update-password.page').then(
+        (m) => m.UpdatePasswordPage
       ),
   },
 ];

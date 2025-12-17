@@ -1,0 +1,47 @@
+.days-swiper {
+  margin-top: 10px;
+}
+
+.day-card {
+  width: 70px;
+  background: #ffffff;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  user-select: none;
+}
+
+/* 🟪 Selected Day */
+.day-card.active {
+  background: #5f33e1;
+  color: #ffffff;
+  transform: scale(1.07);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 🔄 Today (only outline before selection) */
+.day-card.today {
+  border: 2px solid #5f33e1;
+  font-weight: 600;
+}
+
+/* When today is selected → remove border (active wins) */
+.day-card.today.active {
+  border: none;
+}
+
+.month {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.day-number {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.day-name {
+  font-size: 12px;
+  opacity: 0.7;
+}
